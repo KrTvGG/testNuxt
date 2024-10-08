@@ -4,7 +4,12 @@
 </script>
 <template>
     <div class="item" v-for="item in data">
-        {{item.title.rendered}}
+        <CarCard 
+            :link="item.link" 
+            :name="item.title.rendered" 
+            :cost="item.acf"
+            
+        />
     </div>
     <UPagination :total="data.length" :model-value="1" :page-count="5"/>
 </template>
