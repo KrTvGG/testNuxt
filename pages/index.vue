@@ -1,15 +1,26 @@
-<script setup>
-    const {data} = useFetch('https://apa-auto.ru/wp-json/wp/v2/car?per_page=100')
-    const page = 1
+<script setup lang="ts">
+    interface ICar {
+        link: string,
+        title: {
+            rendered: string,
+        },
+        acf: {
+            "8-14_day_rent": number,
+        },
+        
+    }
+    const {data} = useFetch<ICar[]>('https://apa-auto.ru/wp-json/wp/v2/car?per_page=100')
+    const page = ref<number>(1)
 </script>
 <template>
-    <div class="item" v-for="item in data">
-        <CarCard 
-            :link="item.link" 
-            :name="item.title.rendered" 
-            :cost="item.acf"
-            
-        />
-    </div>
-    <UPagination :total="data.length" :model-value="1" :page-count="5"/>
+    <template v-if="data">
+        <div class="item" v-for="item in data">
+            <CarCard 
+                :link="item.link" 
+                :name="item.title.rendered" 
+                :cost="item.acf['8-14_day_rent']"
+            />
+        </div>
+        <UPagination :total="data?.length" :model-value="page" :page-count="5"/>
+    </template>
 </template>

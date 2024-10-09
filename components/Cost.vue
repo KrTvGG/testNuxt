@@ -1,6 +1,6 @@
 <script lang="ts" setup>
     defineProps<{
-        cost: integer,
+        cost: number,
     }>()
 </script>
 <template>
