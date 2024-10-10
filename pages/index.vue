@@ -15,6 +15,8 @@
         }
     })
 
+    const test = $fetch<any>('')
+
     const carList = ref<ICar[] | null>(data)
 
     watch(page, async () => {
