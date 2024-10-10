@@ -6,6 +6,7 @@
             page: page.value,
             per_page: 9,
             acf_format: 'standard',
+            _embed: true,
         }
     })
     const data = await $fetch<ICar[]>(`https://apa-auto.ru/wp-json/wp/v2/car`, {
