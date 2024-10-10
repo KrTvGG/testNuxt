@@ -1,12 +1,15 @@
 <script setup lang="ts">
     const maxPages = ref<number>(1)
     const page = ref<number>(1)
-    const data = await $fetch<ICar[]>(`https://apa-auto.ru/wp-json/wp/v2/car`, {
-        params: {
+    const params = computed(() => {
+        return {
             page: page.value,
             per_page: 9,
             acf_format: 'standard',
-        },
+        }
+    })
+    const data = await $fetch<ICar[]>(`https://apa-auto.ru/wp-json/wp/v2/car`, {
+        params: params.value,
         onResponse: (context) => {
             maxPages.value = parseInt(context.response.headers.get("X-WP-Total" ) || '1')
         }
@@ -15,9 +18,9 @@
     const carList = ref<ICar[] | null>(data)
 
     watch(page, async () => {
-        console.log(page.value);
-        
-        carList.value = await $fetch<ICar[]>(`https://apa-auto.ru/wp-json/wp/v2/car?per_page=9&page=${page.value}&acf_format=standard`)
+        carList.value = await $fetch<ICar[]>(`https://apa-auto.ru/wp-json/wp/v2/car`, {
+            params: params.value
+        })
     })
 </script>
 <template>
