@@ -27,7 +27,7 @@
     })
 </script>
 <template>
-    <div class="container">
+    <div class="container mx-auto">
         <template v-if="data">
             <div class="grid grid-cols-3 gap-[20px] mt-[100px] mb-10">
                 <div class="item rounded-2xl overflow-hidden" v-for="item in carList" :key="item.id">
@@ -39,24 +39,9 @@
                     />
                 </div>
             </div>
-            <div v-if="maxPages > 1" class="paginate">
-                <UPagination v-model="page" :page-count="9" :total="maxPages"/>
+            <div v-if="maxPages > 1" class="mx-auto w-full my-10">
+                <UPagination class="items-center justify-center" v-model="page" :page-count="9" :total="maxPages"/>
             </div>
         </template>
     </div>
 </template>
-<style lang="scss">
-    .container {
-        width: clamp(1173.33333px, 91.66667vw, 1760px);
-        max-width: 100%;
-        margin: 0 auto;
-    }
-    .paginate {
-        width: 100%;
-        margin: 20px auto 50px;
-        div {
-            align-items: center;
-            justify-content: center;
-        }
-    }
-</style>

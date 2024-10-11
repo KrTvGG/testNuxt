@@ -1,6 +1,10 @@
 declare global {
     interface ISize {
-        [key: string]: string; // Чтобы учесть динамические ключи и значения
+        [key: string]: string;
+    }
+    interface ICharacteristic {
+        charactiristic_name: string,
+        charactiristic_value: string
     }
     interface ICarGalleryImage {
         ID: number;
@@ -26,7 +30,7 @@ declare global {
         icon: string;
         width: number;
         height: number;
-        sizes: ISize; // Используем интерфейс ISize для размеров изображений
+        sizes: ISize;
     }
     interface ICar {
         id: number,
@@ -36,9 +40,14 @@ declare global {
             rendered: string,
         },
         acf: {
-            car_id: string; // Добавляем поле car_id
-            car_gallery: ICarGalleryImage[]; // Используем массив ICarGalleryImage
+            car_id: string;
+            car_gallery: ICarGalleryImage[];
+            charactiristics_repeater : ICharacteristic[],
             "8-14_day_rent": number,
+            '4-7_day_rent': number,
+            '2-3_day_rent': number,
+            '1_day_rent': number,
+            '14_day_more_rent': number
         },
         
     }

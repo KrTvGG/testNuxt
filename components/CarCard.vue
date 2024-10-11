@@ -7,31 +7,11 @@
     }>()
 </script>
 <template>
-    <a :href="link " class="card font-mono">
-        <img :src="img" :alt="name">
-        <div class="card__content">
+    <a :href="link " class="font-mono relative overflow-hidden z-0">
+        <img :src="img" :alt="name" class="w-fill h-full object-cover aspect-[573/300]">
+        <div class="absolute z-[3] bottom-4 left-4">
             <div class="text-xl">{{ name }}</div>
             <Cost :cost="cost"/>
         </div>
     </a>
 </template>
-<style lang="scss">
-    .card {
-        position: relative;
-        overflow: hidden;
-        z-index: 0;
-        &__content {
-            position: absolute;
-            bottom: clamp(10.66667px, .83333vw, 16px);
-            left: clamp(10.66667px, .83333vw, 16px);
-            z-index: 3;
-        }
-        img {
-            width: 100%;
-            height: 100%;
-            aspect-ratio: 573 / 300;
-            object-fit: cover;
-            // object-position: bottom;
-        }
-    }
-</style>
