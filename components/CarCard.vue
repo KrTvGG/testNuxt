@@ -7,22 +7,15 @@
     }>()
 </script>
 <template>
-    <a :href="link " class="card">
+    <a :href="link " class="card font-mono">
         <img :src="img" :alt="name">
         <div class="card__content">
-            <div class="title">{{ name }}</div>
+            <div class="text-xl">{{ name }}</div>
             <Cost :cost="cost"/>
         </div>
     </a>
 </template>
 <style lang="scss">
-    .title {
-        font-size: clamp(13.33333px, 1.04167vw, 20px);
-        line-height: clamp(18.66667px, 1.45833vw, 28px);
-        font-family: 'Geologica', sans-serif;
-        font-style: normal;
-        font-weight: 300;
-    }
     .card {
         position: relative;
         overflow: hidden;

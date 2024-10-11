@@ -29,10 +29,10 @@
 <template>
     <div class="container">
         <template v-if="data">
-            <div class="items">
-                <div class="item" v-for="item in carList" :key="item.id">
+            <div class="grid grid-cols-3 gap-[20px] mt-[100px] mb-10">
+                <div class="item rounded-2xl overflow-hidden" v-for="item in carList" :key="item.id">
                     <CarCard 
-                        :link="item.link" 
+                        :link="item.slug" 
                         :name="item.title.rendered" 
                         :cost="item.acf['8-14_day_rent']"
                         :img="item.acf.car_gallery[0].sizes.large"
@@ -46,13 +46,6 @@
     </div>
 </template>
 <style lang="scss">
-    .items {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        margin-top: 100px;
-        margin-bottom: 100px;
-    }
     .container {
         width: clamp(1173.33333px, 91.66667vw, 1760px);
         max-width: 100%;

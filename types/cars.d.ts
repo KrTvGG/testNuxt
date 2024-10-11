@@ -31,6 +31,7 @@ declare global {
     interface ICar {
         id: number,
         link: string,
+        slug: string,
         title: {
             rendered: string,
         },
