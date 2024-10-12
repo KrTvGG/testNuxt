@@ -33,6 +33,11 @@
 </script>
 <template>
     <div class="container mx-auto my-[100px]">
+        <UIButton 
+            :href="'/'"
+            :icon="true"
+            class="mb-10"
+        >Все авто</UIButton>
         <img class="rounded-xl mb-10 mx-auto" :alt="pageContent[0].title.rendered" :src="pageContent[0].acf.car_gallery[0].sizes.medium_large">
         <div class="flex">
             <div class=" flex flex-col w-1/2">
