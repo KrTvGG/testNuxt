@@ -1,7 +1,6 @@
 <script lang="ts" setup>
     const route = useRoute()
     const pageContent = await getPageContent(String(route.params.slug))
-
     if(!pageContent.length){
         throw createError({
             statusCode: 404,
@@ -9,11 +8,9 @@
             fatal: true,
         })
     }
-    
     useHead({
         title: pageContent[0].title.rendered,
     })
-
     let tab = ref<number>(0);
     const classesTab = {
         'py-5': true,
@@ -30,6 +27,7 @@
         'duration-150': true,
         'ease-out': true,
     };
+    
 </script>
 <template>
     <div class="container mx-auto my-[100px]">
@@ -51,7 +49,7 @@
                     <div :class="{ 'border-sky-400': tab == 2, ...classesTab }" @click="tab = 2">характеристики</div>
                 </div>
                 <template v-if="tab == 0">
-                    0
+                    <DatePicker/>
                 </template>
                 <template v-if="tab == 1">
                     <div class=" flex flex-col">
