@@ -49,7 +49,7 @@
                     <div :class="{ 'border-sky-400': tab == 2, ...classesTab }" @click="tab = 2">характеристики</div>
                 </div>
                 <template v-if="tab == 0">
-                    <DatePicker/>
+                    <DatePicker :car_id="pageContent[0].acf.car_id"/>
                 </template>
                 <template v-if="tab == 1">
                     <div class=" flex flex-col">

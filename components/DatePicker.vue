@@ -1,11 +1,17 @@
-<script setup lang="ts">
+<script setup lang="ts" async>
     import { DatePicker as VCalendarDatePicker } from 'v-calendar';
     import 'v-calendar/dist/style.css';
+    import * as auth from "..//auth.json";
+    let data = null;
     type DateRange = { start: Date; end: Date };
     const props = defineProps({
         modelValue: {
-        type: [Date, Array] as PropType<Date | DateRange | null>, // Обновляем тип для поддержки диапазона
-        default: null
+            type: [Date, Array] as PropType<Date | DateRange | null>,
+            default: null
+        },
+        car_id: {
+            type: String,
+            default: undefined,
         }
     });
     const emit = defineEmits(['update:model-value', 'close']);
@@ -23,8 +29,38 @@
         'is-dark': { selector: 'html', darkClass: 'dark' },
         'first-day-of-week': 2,
     };
+    const params = computed(() => {
+        return {
+            status: 'draft',
+            acf_format: 'standard',
+            _embed: true,
+            per_page: 100,
+            meta_key: 'rent_car_post_id',
+            meta_value: props.car_id
+            // meta_query: JSON.stringify([{
+            //     key: 'rent_car_post_id',
+            //     value: props.car_id,
+            //     compare: '=',
+            //     type: 'CHAR'
+            // }])
+        }
+    });
+    const authHeader = 'Basic ' + btoa(`${auth.user}:${auth.password}`);
+    try {
+        data = await $fetch<IRent[]>(`https://apa-auto.ru/wp-json/wp/v2/rent_posts`, {
+            params: params.value,
+            headers: {
+                'Authorization': authHeader
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
 </script>
 <template>
+    <!-- <div class="" v-for="item in data">
+        {{ item.meta_query }}
+    </div> -->
     <VCalendarDatePicker  v-model.range="date" :columns="2" v-bind="{ ...attrs, ...$attrs }" />
 </template>
 <style>
