@@ -1,61 +1,56 @@
-<script lang="ts">
-    export default {
-        props: {
-            type: {
-                type: String as () => "button" | "submit" | "reset" | undefined,
-                default: undefined,
-            },
-            href: {
-                type: String,
-                default: undefined,
-            },
-            icon: {
-                type: Boolean,
-                default: false,
-            },
-            icon_position: {
-                type: String as () => 'left' | 'right',
-                default: 'left',
-            }
-        },
-        computed: {
-            btnClasses() {
-                return {
-                    'w-fit': true,
-                    'uppercase': true,
-                    'flex': true,
-                    'justify-between': this.icon,
-                    'text-xl': true,
-                    'border-2': true,
-                    'rounded-full': true,
-                    'border-teal-gray': true,
-                    'ease-in': true,
-                    'cursor-pointer': !this.href,
-                    'py-5': true,
-                    'px-3.5': true,
-                    'hover:border-sky-400': true,
-                    'transition': true,
-                    'duration-150': true,
-                    'relative': true,
-                    'overflow-hidden': true,
-                    'items-center': true
-                };
-            },
-        },
-    };
+<script lang="ts" setup>
+    interface IUIButton {
+        type?: 'submit' | 'button',
+        to?: string,
+        href?: string,
+        icon?: boolean,
+        icon_position?: 'left' | 'right',
+    }
+    const {
+        type = 'button',
+        to,
+        href,
+        icon,
+        icon_position = 'left',
+    } = defineProps<IUIButton>()
+    const buttonClassList = {
+        'w-fit': true,
+        'uppercase': true,
+        'flex': true,
+        'justify-between': icon,
+        'text-xl': true,
+        'border-2': true,
+        'rounded-full': true,
+        'border-teal-gray': true,
+        'ease-in': true,
+        'cursor-pointer': !href,
+        'py-5': true,
+        'px-3.5': true,
+        'hover:border-sky-400': true,
+        'transition': true,
+        'duration-150': true,
+        'relative': true,
+        'overflow-hidden': true,
+        'items-center': true
+    }
 </script>
 
 <template>
-    <button v-if="type" :type="type" :class="{ ...btnClasses }">
+    <button v-if="type" :type="type" :class="{ ...buttonClassList }">
         <span v-if="icon && icon_position == 'left'" class="icon arrow-btn-icon mr-[50px]"></span>
         <slot></slot>
         <span v-if="icon && icon_position == 'right'" class="icon arrow-btn-icon ml-[50px] rotate-180"></span>
     </button>
-    <a v-else-if="href" :href="href" :class="{ ...btnClasses }">
+    <a v-else-if="href" :href="href" :class="{ ...buttonClassList }">
         <span v-if="icon && icon_position == 'left'" class="icon arrow-btn-icon mr-[50px]"></span>
         <slot></slot>
         <span v-if="icon && icon_position == 'right'" class="icon arrow-btn-icon ml-[50px] rotate-180"></span>
     </a>
+    <div v-else :class="{ ...buttonClassList }">
+        <span v-if="icon && icon_position == 'left'" class="icon arrow-btn-icon mr-[50px]"></span>
+        <slot></slot>
+        <span v-if="icon && icon_position == 'right'" class="icon arrow-btn-icon ml-[50px] rotate-180"></span>
+    </div>
 </template>
 
 
