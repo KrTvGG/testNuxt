@@ -7,7 +7,7 @@
         icon_position?: 'left' | 'right',
     }
     const {
-        type = 'button',
+        type,
         to,
         href,
         icon,
@@ -41,6 +41,11 @@
         <slot></slot>
         <span v-if="icon && icon_position == 'right'" class="icon arrow-btn-icon ml-[50px] rotate-180"></span>
     </button>
+    <NuxtLink v-else-if="to" :to="to" :class="{ ...buttonClassList }">
+        <span v-if="icon && icon_position == 'left'" class="icon arrow-btn-icon mr-[50px]"></span>
+        <slot></slot>
+        <span v-if="icon && icon_position == 'right'" class="icon arrow-btn-icon ml-[50px] rotate-180"></span>
+    </NuxtLink>
     <a v-else-if="href" :href="href" :class="{ ...buttonClassList }">
         <span v-if="icon && icon_position == 'left'" class="icon arrow-btn-icon mr-[50px]"></span>
         <slot></slot>

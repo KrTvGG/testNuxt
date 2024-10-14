@@ -32,7 +32,7 @@
 <template>
     <div class="container mx-auto my-[100px]">
         <UIButton 
-            :href="'/'"
+            :href="'/cars/'"
             :icon="true"
             class="mb-10"
         >Все авто</UIButton>
