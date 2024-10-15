@@ -21,10 +21,10 @@
     const russianText = ref('');
     const transliteratedText = ref('');
     watch(russianText, (newValue) => {
-        transliteratedText.value = transliterate(newValue);
+        transliteratedText.value = transliterate(newValue.toLowerCase());
     });
     const copyToClipboard = (text: string) => {
-        navigator.clipboard.writeText(text)
+        navigator.clipboard.writeText(text.toLowerCase())
     };
     const handlePaste = (event: ClipboardEvent) => {
         event.preventDefault();
