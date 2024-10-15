@@ -16,7 +16,8 @@
             .split('')
             .map(char => translitMap[char] || char)
             .join('')
-            .replace(/\s+/g, '-');
+            .replace(/\s+/g, '-')
+            .replace(',', '');
     }
     const russianText = ref('');
     const transliteratedText = ref('');
