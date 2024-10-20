@@ -34,5 +34,20 @@ declare global {
             surname_client: string
         }
     }
+
+    interface ICarRent {
+        ID: number,
+        title: string,
+        acf_fields: {
+            rent_car_city: string,
+            rent_car_end_date: string,
+            rent_car_post_id: string,
+            rent_car_start_date: string,
+            rent_day_count: number,
+            rent_documents: array|string|boolean,
+            rent_options: array|string|boolean,
+            rent_status: string
+        }
+    }
 }
 export {}
