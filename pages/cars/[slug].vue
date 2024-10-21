@@ -48,11 +48,11 @@
                     <div :class="{ 'border-sky-400': tab == 1, ...classesTab }" @click="tab = 1">подробнее о цене</div>
                     <div :class="{ 'border-sky-400': tab == 2, ...classesTab }" @click="tab = 2">характеристики</div>
                 </div>
-                <template v-if="tab == 0">
-                    <DatePicker :car_id="pageContent[0].acf.car_id"/>
-                </template>
-                <template v-if="tab == 1">
-                    <div class=" flex flex-col">
+                <!-- <Transition name="bounce"> -->
+                    <DatePicker v-if="tab == 0" :car_id="pageContent[0].acf.car_id"/>
+                <!-- </Transition> -->
+                <!-- <Transition name="bounce"> -->
+                    <div v-if="tab == 1" class=" flex flex-col">
                         <div class="flex py-5">
                             <div class="w-1/2 text-lg text-neutral-600">Период аренды</div>
                             <div class="w-1/2 text-lg text-neutral-600">Стоимость</div>
@@ -78,9 +78,9 @@
                             <div class="w-1/2 text-lg">{{ pageContent[0].acf['14_day_more_rent'] }}</div>
                         </div>
                     </div>
-                </template>
-                <template v-if="tab == 2">
-                    <div class="flex flex-col gap-[20px]">
+                <!-- </Transition> -->
+                <!-- <Transition name="bounce"> -->
+                    <div v-if="tab == 2" class="flex flex-col gap-[20px]">
                         <div v-for="item in pageContent[0].acf.charactiristics_repeater" class="text-xl leading-7">
                             <div class="flex">
                                 <div class="text-nowrap">{{ item.charactiristic_name }}</div>
@@ -89,8 +89,27 @@
                             </div>
                         </div>
                     </div>
-                </template>
+                <!-- </Transition> -->
             </div>
         </div>
     </div>
 </template>
+<style>
+    .bounce-enter-active {
+        animation: bounce-in 0.5s;
+    }
+    .bounce-leave-active {
+        animation: bounce-in 0.5s reverse;
+    }
+    @keyframes bounce-in {
+        0% {
+            transform: scale(0);
+        }
+        50% {
+            transform: scale(1.25);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+</style>

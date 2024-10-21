@@ -1,8 +1,6 @@
 <script setup lang="ts" async>
     import { DatePicker as VCalendarDatePicker } from 'v-calendar';
     import 'v-calendar/dist/style.css';
-    import * as auth from "..//auth.json";
-    let data = null;
     type DateRange = { start: Date; end: Date };
     const props = defineProps({
         modelValue: {
@@ -26,44 +24,38 @@
         transparent: true,
         borderless: true,
         color: 'primary',
-        'is-dark': { selector: 'html', darkClass: 'dark' },
+        'is-dark': { selector: 'html', darkClass: 'white' },
         'first-day-of-week': 2,
     };
-    const params = computed(() => {
-        return {
-            status: 'draft',
-            acf_format: 'standard',
-            _embed: true,
-            per_page: 100,
-            meta_key: 'rent_car_post_id',
-            meta_value: props.car_id
-            // meta_query: JSON.stringify([{
-            //     key: 'rent_car_post_id',
-            //     value: props.car_id,
-            //     compare: '=',
-            //     type: 'CHAR'
-            // }])
-        }
-    });
-    const authHeader = 'Basic ' + btoa(`${auth.user}:${auth.password}`);
-    try {
-        data = await $fetch<IRent[]>(`https://apa-auto.ru/wp-json/wp/v2/rent_posts`, {
-            params: params.value,
-            headers: {
-                'Authorization': authHeader
-            }
+
+    const parseDateString = (dateString: string): Date => {
+        const [datePart, timePart] = dateString.split(' ');
+        const [day, month, year] = datePart.split('.').map(Number);
+        const [hours, minutes] = timePart.split(':').map(Number);
+        return new Date(year, month - 1, day, hours, minutes);
+    };
+
+    const data = await $fetch<ICarRent[]>(`https://apa-auto.ru/wp-json/v1/rents-car/${props.car_id}`, {})
+
+    let rents: Array<{start: Date, end: Date}> = [];
+
+    data.forEach(function(rent) {
+        rents.push({
+            start: parseDateString(rent.acf_fields.rent_car_start_date),
+            end: parseDateString(rent.acf_fields.rent_car_end_date)
         });
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
+    });
+    
 </script>
 <template>
-    <!-- <div class="" v-for="item in data">
-        {{ item.meta_query }}
-    </div> -->
-    <VCalendarDatePicker  v-model.range="date" :columns="2" v-bind="{ ...attrs, ...$attrs }" />
+    <VCalendarDatePicker 
+        v-model.range="date" 
+        :columns="1"
+        :disabled-dates="rents"
+        is-required
+        v-bind="{ ...attrs, ...$attrs }" />
 </template>
-<style>
+<style lang="scss">
     :root {
         --vc-gray-50: rgb(var(--color-gray-50));
         --vc-gray-100: rgb(var(--color-gray-100));
@@ -75,8 +67,30 @@
         --vc-gray-700: rgb(var(--color-gray-700));
         --vc-gray-800: rgb(var(--color-gray-800));
         --vc-gray-900: rgb(var(--color-gray-900));
+        --vc-day-content-disabled-color: #6B6E71;
     }
-
+    .vc-day-content {
+        --vc-text-sm: 18px;
+        line-height: 18px;
+        &.vc-disabled {
+            cursor: auto;
+            pointer-events: none;
+        }
+    }
+    .vc-weekdays {
+        --vc-text-sm: 18px;
+        line-height: 18px;
+        .vc-weekday-7, .vc-weekday-1 {
+            color: #1790FF;
+        }
+    }
+    .vc-container {
+        --vc-color: #FFF;
+        background-color: #2A2C32;
+        .weekday-7, .weekday-1 {
+            color: #1790FF;
+        }
+    }
     .vc-primary {
         --vc-accent-50: rgb(var(--color-primary-50));
         --vc-accent-100: rgb(var(--color-primary-100));
